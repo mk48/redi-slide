@@ -1,0 +1,25 @@
+{
+  "name": "astro-app",
+  "type": "module",
+  "version": "0.0.1",
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "astro": "astro"
+  },
+  "dependencies": {
+    "@astrojs/mdx": "^4.2.2",
+    "@astrojs/react": "^4.2.2",
+    "@tailwindcss/vite": "^4.0.15",
+    "@types/canvas-confetti": "^1.9.0",
+    "@types/react": "^19.0.12",
+    "@types/react-dom": "^19.0.4",
+    "astro": "^5.5.5",
+    "canvas-confetti": "^1.9.3",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0",
+    "tailwindcss": "^4.0.15"
+  },
+  "packageManager": "pnpm@9.15.1+sha512.1acb565e6193efbebda772702950469150cf12bcc764262e7587e71d19dc98a423dff9536e57ea44c49bdf790ff694e83c27be5faa23d67e0c033b583be4bfcf"
+}
