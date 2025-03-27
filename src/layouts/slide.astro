@@ -1,0 +1,14 @@
+---
+import Prose from "@/components/Prose.astro";
+import BaseLayout from "./main.astro";
+const props = Astro.props;
+---
+
+<BaseLayout {...props}>
+  <h1 class="scroll-m-20 text-4xl font-extrabold tracking-tight lg:text-5xl">
+    {props.content.title}
+  </h1>
+  <Prose>
+    <slot />
+  </Prose>
+</BaseLayout>
