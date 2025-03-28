@@ -19,7 +19,9 @@ import { Collapsible } from "@/components/ui/collapsible";
 const slideNav: TreeLink[] = [
   { id: "1", title: "intro", url: "/arrays/01-intro" },
   { id: "2", title: "creating", url: "/arrays/02-creating" },
-  { id: "3", title: "parent", children: [{ id: "3.1", title: "ch 1", url: "/arrays/03-mdonly" }] },
+  { id: "3", title: "prop", url: "/arrays/03-prop" },
+  { id: "4", title: "access", url: "/arrays/03-access-ele" },
+  { id: "30", title: "parent", children: [{ id: "30.1", title: "ch 1", url: "/arrays/03-mdonly" }] },
 ];
 
 interface props {
@@ -29,7 +31,7 @@ interface props {
 const NavTree: React.FC<props> = ({ children }) => {
   return (
     <div>
-      <SidebarProvider defaultOpen={false}>
+      <SidebarProvider defaultOpen={true}>
         <Sidebar>
           <SidebarContent>
             <SidebarGroup>
