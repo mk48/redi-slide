@@ -1,18 +1,15 @@
 ---
-title: 'MDX here'
+title: 'Introduction to Arrays'
 layout: ../../../layouts/slide.astro
 ---
 
-import { Button } from "@/components/ui/button";
+- Arrays are **ordered collections** of data
+- Used to store multiple values in a single variable
+- Can hold any type of data (numbers, strings, objects, even other arrays)
+- Zero-indexed (first element is at position 0)
 
-![A starry night sky.](./csv.png)
-
-
-<div class="text-blue-600 dark:text-sky-400">some div</div>
-<Button >button on mdx</Button>
-
-<div class="flex">
-  <div class="w-14 flex-none">01</div>
-  <div class="w-32 flex-none">02</div>
-  <div class="flex-1">03</div>
-</div>
+```javascript
+// Creating arrays
+let numbers = [1, 2, 3, 4, 5];
+let mixed = [42, "hello", true, { name: "John" }];
+```

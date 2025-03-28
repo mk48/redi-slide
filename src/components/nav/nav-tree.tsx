@@ -14,8 +14,13 @@ import {
   SidebarProvider,
   SidebarTrigger,
 } from "@/components/ui/sidebar";
+import { Collapsible } from "@/components/ui/collapsible";
 
-const slideNav: TreeLink[] = [{ id: "1", title: "intro", url: "/arrays/01-intro" }];
+const slideNav: TreeLink[] = [
+  { id: "1", title: "intro", url: "/arrays/01-intro" },
+  { id: "2", title: "creating", url: "/arrays/02-creating" },
+  { id: "3", title: "parent", children: [{ id: "3.1", title: "ch 1", url: "/arrays/03-mdonly" }] },
+];
 
 interface props {
   children: React.ReactNode;
@@ -24,29 +29,19 @@ interface props {
 const NavTree: React.FC<props> = ({ children }) => {
   return (
     <div>
-      <SidebarProvider>
+      <SidebarProvider defaultOpen={false}>
         <Sidebar>
           <SidebarContent>
             <SidebarGroup>
               <SidebarGroupLabel>Application</SidebarGroupLabel>
               <SidebarGroupContent>
-                <SidebarMenu>
-                  {slideNav.map((item) => (
-                    <SidebarMenuItem key={item.id}>
-                      <SidebarMenuButton asChild>
-                        <a href={item.url}>
-                          <span>{item.title}</span>
-                        </a>
-                      </SidebarMenuButton>
-                    </SidebarMenuItem>
-                  ))}
-                </SidebarMenu>
+                <NavItem nav={slideNav} />
               </SidebarGroupContent>
             </SidebarGroup>
           </SidebarContent>
         </Sidebar>
         <main>
-          <SidebarTrigger />
+          <SidebarTrigger className="text-transparent" />
           {children}
         </main>
       </SidebarProvider>
