@@ -1,0 +1,28 @@
+---
+title: 'Passing a function as an argument to another function'
+layout: ../../layouts/slide.astro
+---
+
+* In JavaScript, functions are first-class citizens.
+* This means you can treat them like any other variable.
+* You can:
+    * Assign them to variables.
+    * Pass them as arguments to other functions.
+    * Return them from other functions.
+
+```javascript
+function applyOperation(num1, num2, operation) {
+  return operation(num1, num2);
+}
+
+function add(a, b) {
+  return a + b;
+}
+
+function subtract(a, b) {
+  return a - b;
+}
+
+console.log(applyOperation(5, 3, add)); // Output: 8
+console.log(applyOperation(5, 3, subtract)); // Output: 2
+```
