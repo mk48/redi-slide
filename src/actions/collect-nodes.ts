@@ -1,13 +1,12 @@
 import type { NodeModel } from "@minoru/react-dnd-treeview";
-import { readdir } from "fs/promises";
-import path from "node:path";
 import fs from "node:fs";
+import path from "node:path";
 
 const isDirectory = (fileName: string) => {
   return fs.lstatSync(fileName).isDirectory(); // .isFile();
 };
 
-const dirIndex = (dirPath: string) => {
+/*const dirIndex = (dirPath: string) => {
   if (dirPath === "/") {
     return 0;
   }
@@ -25,9 +24,9 @@ const dirIndex = (dirPath: string) => {
   }
 
   return dirIndex;
-};
+};*/
 
-export function CollectNodes(dirPath: string, dirIndex: number, parentDir: string, parentIndex: number): NodeModel[] {
+export function CollectNodes(dirPath: string, dirIndex: number, parentIndex: number): NodeModel[] {
   const subFolders = fs
     .readdirSync(dirPath)
     .map((fileName) => {
@@ -50,7 +49,7 @@ export function CollectNodes(dirPath: string, dirIndex: number, parentDir: strin
     let nextIndex = 0;
     for (const s of subFolders) {
       nextIndex++;
-      const mdls = CollectNodes(s, nextIndex, dirPath, calculatedDirIndex);
+      const mdls = CollectNodes(s, nextIndex, calculatedDirIndex);
       subModels.push(...mdls);
     }
 

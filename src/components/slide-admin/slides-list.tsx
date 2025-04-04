@@ -1,20 +1,14 @@
-import { actions } from "astro:actions";
-import { useEffect, useState } from "react";
-import { Tree, getBackendOptions, MultiBackend, type NodeModel, type DropOptions } from "@minoru/react-dnd-treeview";
-import { DndProvider } from "react-dnd";
+import { getBackendOptions, MultiBackend, Tree, type NodeModel } from "@minoru/react-dnd-treeview";
 import { Folder, FolderOpen } from "lucide-react";
+import { useState } from "react";
+import { DndProvider } from "react-dnd";
+import slides from "./slides.json";
+import { actions } from "astro:actions";
 
 export default function SlidesList() {
-  const [treeData, setTreeData] = useState<NodeModel[]>([
-    {
-      id: "1",
-      parent: "0",
-      droppable: true,
-      text: "Folder 1",
-    },
-  ]);
+  const [treeData, setTreeData] = useState<NodeModel[]>(slides);
 
-  useEffect(() => {
+  /*useEffect(() => {
     let isSubscribed = true;
 
     const fetchData = async () => {
@@ -31,11 +25,13 @@ export default function SlidesList() {
     return () => {
       isSubscribed = false;
     };
-  }, []);
+  }, []);*/
 
-  const handleDrop = (newTreeData: NodeModel[]) => {
+  const handleDrop = async (newTreeData: NodeModel[]) => {
     console.log(newTreeData);
     setTreeData(newTreeData);
+
+    const { data, error } = await actions.saveSlideOrders({ nodes: newTreeData });
   };
 
   return (

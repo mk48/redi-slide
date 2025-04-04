@@ -1,0 +1,80 @@
+[
+  {
+    "id": 1,
+    "parent": 0,
+    "text": "/",
+    "droppable": true
+  },
+  {
+    "id": 101,
+    "parent": 1,
+    "text": "/arrays/01-intro",
+    "droppable": false
+  },
+  {
+    "id": 102,
+    "parent": 1,
+    "text": "/arrays/02-creating",
+    "droppable": false
+  },
+  {
+    "id": 103,
+    "parent": 1,
+    "text": "/arrays/03-prop",
+    "droppable": false
+  },
+  {
+    "id": 104,
+    "parent": 1,
+    "text": "/arrays/04-access-ele",
+    "droppable": false
+  },
+  {
+    "id": 105,
+    "parent": 1,
+    "text": "/arrays/05-methods",
+    "droppable": true
+  },
+  {
+    "id": 10501,
+    "parent": 105,
+    "text": "/arrays/05-methods/01-concat",
+    "droppable": false
+  },
+  {
+    "id": 10502,
+    "parent": 105,
+    "text": "/arrays/05-methods/02-join",
+    "droppable": false
+  },
+  {
+    "id": 10503,
+    "parent": 105,
+    "text": "/arrays/05-methods/03-indexOf-includes",
+    "droppable": false
+  },
+  {
+    "id": 10504,
+    "parent": 105,
+    "text": "/arrays/05-methods/04-push-pop",
+    "droppable": false
+  },
+  {
+    "id": 10506,
+    "parent": 105,
+    "text": "/arrays/05-methods/06-unshift-shift",
+    "droppable": false
+  },
+  {
+    "id": 10505,
+    "parent": 105,
+    "text": "/arrays/05-methods/05-slice",
+    "droppable": false
+  },
+  {
+    "id": 106,
+    "parent": 1,
+    "text": "/arrays/06-passing-fun",
+    "droppable": false
+  }
+]
