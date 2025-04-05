@@ -4,6 +4,9 @@ import { useState } from "react";
 import { DndProvider } from "react-dnd";
 import slides from "./slides.json";
 import { actions } from "astro:actions";
+import { CustomNode } from "./custom-node";
+import { Placeholder } from "./placeholder";
+import styles from "./style.module.css";
 
 export default function SlidesList() {
   const [treeData, setTreeData] = useState<NodeModel[]>(slides);
@@ -31,7 +34,7 @@ export default function SlidesList() {
     console.log(newTreeData);
     setTreeData(newTreeData);
 
-    const { data, error } = await actions.saveSlideOrders({ nodes: newTreeData });
+    //const { data, error } = await actions.saveSlideOrders({ nodes: newTreeData });
   };
 
   return (
@@ -43,11 +46,13 @@ export default function SlidesList() {
           sort={false}
           insertDroppableFirst={false}
           onDrop={handleDrop}
+          classes={{
+            //root: styles.treeRoot,
+            //draggingSource: styles.draggingSource,
+            placeholder: styles.placeholderContainer,
+          }}
           render={(node, { depth, isOpen, onToggle }) => (
-            <div style={{ marginLeft: depth * 10 }}>
-              {node.droppable && <span onClick={onToggle}>{isOpen ? <FolderOpen /> : <Folder />}</span>}
-              {node.text}
-            </div>
+            <CustomNode node={node} depth={depth} isOpen={isOpen} onToggle={onToggle} />
           )}
           canDrop={(tree, { dragSource, dropTargetId, dropTarget }) => {
             if (dragSource?.parent === dropTargetId) {
@@ -55,6 +60,7 @@ export default function SlidesList() {
             }
           }}
           dropTargetOffset={10}
+          placeholderRender={(node, { depth }) => <Placeholder node={node} depth={depth} />}
         />
       </DndProvider>
     </>
