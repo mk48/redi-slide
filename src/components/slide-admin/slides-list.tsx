@@ -1,14 +1,16 @@
 import { getBackendOptions, MultiBackend, Tree, type NodeModel } from "@minoru/react-dnd-treeview";
-import { Folder, FolderOpen } from "lucide-react";
 import { useState } from "react";
 import { DndProvider } from "react-dnd";
-import slides from "./slides.json";
-import { actions } from "astro:actions";
 import { CustomNode } from "./custom-node";
 import { Placeholder } from "./placeholder";
+import slides from "./slides.json";
 import styles from "./style.module.css";
 
-export default function SlidesList() {
+type Props = {
+  onSelect: (node: NodeModel) => void;
+};
+
+const SlidesList: React.FC<Props> = (props) => {
   const [treeData, setTreeData] = useState<NodeModel[]>(slides);
 
   /*useEffect(() => {
@@ -38,7 +40,7 @@ export default function SlidesList() {
   };
 
   return (
-    <>
+    <div>
       <DndProvider backend={MultiBackend} options={getBackendOptions()}>
         <Tree
           tree={treeData}
@@ -52,7 +54,9 @@ export default function SlidesList() {
             placeholder: styles.placeholderContainer,
           }}
           render={(node, { depth, isOpen, onToggle }) => (
-            <CustomNode node={node} depth={depth} isOpen={isOpen} onToggle={onToggle} />
+            <span onClick={() => props.onSelect(node)}>
+              <CustomNode node={node} depth={depth} isOpen={isOpen} onToggle={onToggle} />
+            </span>
           )}
           canDrop={(tree, { dragSource, dropTargetId, dropTarget }) => {
             if (dragSource?.parent === dropTargetId) {
@@ -63,6 +67,8 @@ export default function SlidesList() {
           placeholderRender={(node, { depth }) => <Placeholder node={node} depth={depth} />}
         />
       </DndProvider>
-    </>
+    </div>
   );
-}
+};
+
+export default SlidesList;
