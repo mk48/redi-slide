@@ -73,4 +73,15 @@ export const server = {
       return data;
     },
   }),
+  saveSlideContent: defineAction({
+    input: z.object({
+      slidePath: z.string(),
+      content: z.string(),
+    }),
+    handler: async (input): Promise<void> => {
+      const slidePath = path.join(srcDir(), "pages", input.slidePath, "index.mdx");
+
+      fs.writeFileSync(slidePath, input.content, "utf8");
+    },
+  }),
 };
