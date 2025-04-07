@@ -8,7 +8,7 @@ export default function SlideAdminPage() {
   return (
     <div className="flex">
       <SlidesList onSelect={setSelectedNode} />
-      <div> {selectedNode?.text} </div>
+      <div className="bg-amber-500"> {selectedNode?.text} </div>
     </div>
   );
 }
