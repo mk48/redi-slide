@@ -5,6 +5,7 @@ import { CustomNode } from "./custom-node";
 import { Placeholder } from "./placeholder";
 import slides from "./slides.json";
 import styles from "./style.module.css";
+import { cn } from "@/lib/utils";
 
 type Props = {
   onSelect: (node: NodeModel) => void;
@@ -54,9 +55,9 @@ const SlidesList: React.FC<Props> = (props) => {
             placeholder: styles.placeholderContainer,
           }}
           render={(node, { depth, isOpen, onToggle }) => (
-            <span onClick={() => props.onSelect(node)}>
+            <div onClick={() => props.onSelect(node)} style={{ paddingLeft: depth * 24 }}>
               <CustomNode node={node} depth={depth} isOpen={isOpen} onToggle={onToggle} />
-            </span>
+            </div>
           )}
           canDrop={(tree, { dragSource, dropTargetId, dropTarget }) => {
             if (dragSource?.parent === dropTargetId) {
