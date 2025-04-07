@@ -5,7 +5,7 @@ import path from "path";
 import { dirname } from "path";
 import { fileURLToPath } from "url";
 import type { NodeModel } from "@minoru/react-dnd-treeview";
-import { writeFileSync } from "fs";
+import fs from "fs";
 
 const srcDir = () => {
   return dirname(fileURLToPath(import.meta.url))
@@ -53,11 +53,24 @@ export const server = {
 
       console.log("save into: ", slidesFilePath);
       try {
-        writeFileSync(slidesFilePath, JSON.stringify(input.nodes, null, 2), "utf8");
+        fs.writeFileSync(slidesFilePath, JSON.stringify(input.nodes, null, 2), "utf8");
         console.log("Data successfully saved to disk");
       } catch (error) {
         console.log("An error has occurred ", error);
       }
+    },
+  }),
+  getSlideContent: defineAction({
+    input: z.object({
+      slidePath: z.string(),
+    }),
+    handler: async (input): Promise<string> => {
+      const slidePath = path.join(srcDir(), "pages", input.slidePath, "index.mdx");
+
+      const data = fs.readFileSync(slidePath, "utf8");
+
+      //console.log(nodes);
+      return data;
     },
   }),
 };

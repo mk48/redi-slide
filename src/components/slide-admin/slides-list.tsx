@@ -41,34 +41,32 @@ const SlidesList: React.FC<Props> = (props) => {
   };
 
   return (
-    <div>
-      <DndProvider backend={MultiBackend} options={getBackendOptions()}>
-        <Tree
-          tree={treeData}
-          rootId={0}
-          sort={false}
-          insertDroppableFirst={false}
-          onDrop={handleDrop}
-          classes={{
-            //root: styles.treeRoot,
-            //draggingSource: styles.draggingSource,
-            placeholder: styles.placeholderContainer,
-          }}
-          render={(node, { depth, isOpen, onToggle }) => (
-            <div onClick={() => props.onSelect(node)} style={{ paddingLeft: depth * 24 }}>
-              <CustomNode node={node} depth={depth} isOpen={isOpen} onToggle={onToggle} />
-            </div>
-          )}
-          canDrop={(tree, { dragSource, dropTargetId, dropTarget }) => {
-            if (dragSource?.parent === dropTargetId) {
-              return true;
-            }
-          }}
-          dropTargetOffset={10}
-          placeholderRender={(node, { depth }) => <Placeholder node={node} depth={depth} />}
-        />
-      </DndProvider>
-    </div>
+    <DndProvider backend={MultiBackend} options={getBackendOptions()}>
+      <Tree
+        tree={treeData}
+        rootId={0}
+        sort={false}
+        insertDroppableFirst={false}
+        onDrop={handleDrop}
+        classes={{
+          //root: styles.treeRoot,
+          //draggingSource: styles.draggingSource,
+          placeholder: styles.placeholderContainer,
+        }}
+        render={(node, { depth, isOpen, onToggle }) => (
+          <div onClick={() => props.onSelect(node)} style={{ paddingLeft: depth * 24 }}>
+            <CustomNode node={node} depth={depth} isOpen={isOpen} onToggle={onToggle} />
+          </div>
+        )}
+        canDrop={(tree, { dragSource, dropTargetId, dropTarget }) => {
+          if (dragSource?.parent === dropTargetId) {
+            return true;
+          }
+        }}
+        dropTargetOffset={10}
+        placeholderRender={(node, { depth }) => <Placeholder node={node} depth={depth} />}
+      />
+    </DndProvider>
   );
 };
 
