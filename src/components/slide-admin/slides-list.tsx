@@ -48,6 +48,7 @@ const SlidesList: React.FC<Props> = (props) => {
         sort={false}
         insertDroppableFirst={false}
         onDrop={handleDrop}
+        initialOpen={true}
         classes={{
           //root: styles.treeRoot,
           //draggingSource: styles.draggingSource,

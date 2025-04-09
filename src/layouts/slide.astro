@@ -1,18 +1,18 @@
 ---
 import Prose from "@/components/Prose.astro";
-import NavTree from "@/components/nav/nav-tree";
 import BaseLayout from "./main.astro";
+import NavTree2 from "@/components/nav2/nav-tree2";
 const props = Astro.props;
 const { pathname } = Astro.url;
 ---
 
 <BaseLayout {...props}>
-  <NavTree activeUrl={pathname} client:load>
+  <NavTree2 activeUrl={pathname} client:load>
     <h1 class="scroll-m-20 mb-10 text-4xl font-extrabold tracking-tight lg:text-5xl">
       {props.content.title}
     </h1>
     <Prose>
       <slot />
     </Prose>
-  </NavTree>
+  </NavTree2>
 </BaseLayout>

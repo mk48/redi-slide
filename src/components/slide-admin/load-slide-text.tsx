@@ -2,6 +2,8 @@ import { actions } from "astro:actions";
 import React, { useEffect, useState } from "react";
 import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
+import Markdown from "react-markdown";
+import remarkGfm from "remark-gfm";
 
 type Props = {
   url: string;
@@ -46,8 +48,15 @@ const LoadSlideText: React.FC<Props> = (props) => {
   return (
     <>
       <div>{props.url}</div>
-      <Textarea rows={30} value={slideContent} onChange={onContentChange} />
-      <Button onClick={onSave}>Save</Button>
+
+      <div className="mt-8">
+        <Markdown remarkPlugins={[remarkGfm]}>{slideContent}</Markdown>
+      </div>
+
+      <Textarea rows={30} value={slideContent} onChange={onContentChange} className="font-mono mt-8" />
+      <Button onClick={onSave} className="mt-8">
+        Save
+      </Button>
     </>
   );
 };
