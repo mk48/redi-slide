@@ -51,10 +51,10 @@ export const server = {
     handler: async (input): Promise<void> => {
       const slidesFilePath = path.join(srcDir(), "components", "slide-admin", "slides.json");
 
-      console.log("save into: ", slidesFilePath);
+      //console.log("save into: ", slidesFilePath);
       try {
         fs.writeFileSync(slidesFilePath, JSON.stringify(input.nodes, null, 2), "utf8");
-        console.log("Data successfully saved to disk");
+        //console.log("Data successfully saved to disk");
       } catch (error) {
         console.log("An error has occurred ", error);
       }
@@ -80,8 +80,28 @@ export const server = {
     }),
     handler: async (input): Promise<void> => {
       const slidePath = path.join(srcDir(), "pages", input.slidePath, "index.mdx");
-
       fs.writeFileSync(slidePath, input.content, "utf8");
+    },
+  }),
+  createNewSlide: defineAction({
+    input: z.object({
+      baseDirectory: z.string(),
+      slideName: z.string(),
+    }),
+    handler: async (input): Promise<void> => {
+      const newFolder = path.join(srcDir(), "pages", input.baseDirectory, input.slideName);
+      fs.mkdirSync(newFolder);
+
+      const newMdxContent = `---
+title: ''
+layout: '@/layouts/slide.astro'
+---
+
+      `;
+      const indexMdx = path.join(newFolder, "index.mdx");
+      fs.writeFile(indexMdx, newMdxContent, function (err) {
+        if (err) throw err;
+      });
     },
   }),
 };

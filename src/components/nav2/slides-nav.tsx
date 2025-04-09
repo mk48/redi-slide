@@ -96,7 +96,7 @@ const SlidesNav: React.FC<Props> = (props) => {
         }
         render={(node, { depth, isOpen, onToggle }) => (
           <div onClick={() => handleSelect(node)} style={{ paddingLeft: depth * 24 }}>
-            {node.text}
+            {node.text.substring(node.text.lastIndexOf("/") + 1)}
           </div>
         )}
         canDrop={(tree, { dragSource, dropTargetId, dropTarget }) => {

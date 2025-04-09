@@ -76,5 +76,11 @@
     "parent": 1,
     "text": "/arrays/06-passing-fun",
     "droppable": false
+  },
+  {
+    "id": 10507,
+    "parent": 105,
+    "text": "/arrays/new-method",
+    "droppable": false
   }
 ]
