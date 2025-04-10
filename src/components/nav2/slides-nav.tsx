@@ -76,7 +76,9 @@ const SlidesNav: React.FC<Props> = (props) => {
   };
 
   const handleSelect = async (node: NodeModel) => {
-    window.location.href = node.text;
+    if (!node.droppable) {
+      window.location.href = node.text;
+    }
   };
 
   return (

@@ -82,5 +82,17 @@
     "parent": 1,
     "text": "/arrays/06-passing-fun",
     "droppable": false
+  },
+  {
+    "id": 10508,
+    "parent": 1,
+    "text": "/arrays/array-iteration",
+    "droppable": true
+  },
+  {
+    "id": 10509,
+    "parent": 10508,
+    "text": "/arrays/for-each",
+    "droppable": false
   }
 ]
