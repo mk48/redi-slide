@@ -6,7 +6,7 @@ import { Placeholder } from "./placeholder";
 import slides from "./slides.json";
 import styles from "./style.module.css";
 import { cn } from "@/lib/utils";
-import { FilePlus, FilePlus2, FolderPlus } from "lucide-react";
+import { FilePlus, FilePlus2, FolderPlus, Pencil } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { actions } from "astro:actions";
 
@@ -82,6 +82,53 @@ const SlidesList: React.FC<Props> = (props) => {
     }
   };
 
+  const createNewFolder = async (parentNode: NodeModel) => {
+    let newFolderName = prompt("New folder name");
+    if (newFolderName) {
+      const { data, error } = await actions.createNewFolder({ baseDirectory: "arrays", folderName: newFolderName });
+      if (!error) {
+        //add the new folder into tree
+        const newId = getLastId(treeData) + 1;
+        const newNode: NodeModel = {
+          id: newId,
+          parent: parentNode.id,
+          text: "/arrays/" + newFolderName,
+          droppable: true,
+        };
+
+        const nodesWithNew = [...treeData, newNode];
+        setTreeData(nodesWithNew);
+        const { data, error } = await actions.saveSlideOrders({ nodes: nodesWithNew });
+      }
+    }
+  };
+
+  const rename = async (node: NodeModel) => {
+    const currentName = node.text.substring(node.text.lastIndexOf("/") + 1);
+    let newName = prompt("Rename", currentName);
+
+    if (newName) {
+      const newNameFullText = node.text.substring(0, node.text.lastIndexOf("/") + 1) + newName;
+      const treeWithRenamedNode = treeData.map((t) => {
+        if (t.text === node.text) {
+          return { ...node, text: newNameFullText };
+        }
+
+        return t;
+      });
+
+      const { data, error } = await actions.rename({
+        baseDirectory: "arrays",
+        currentName: currentName,
+        newName: newName,
+      });
+      if (!error) {
+        setTreeData(treeWithRenamedNode);
+        const { data, error } = await actions.saveSlideOrders({ nodes: treeWithRenamedNode });
+      }
+    }
+  };
+
   return (
     <DndProvider backend={MultiBackend} options={getBackendOptions()}>
       <Tree
@@ -105,7 +152,7 @@ const SlidesList: React.FC<Props> = (props) => {
             <CustomNode node={node} depth={depth} isOpen={isOpen} onToggle={onToggle} />
             {node.droppable && (
               <div className="flex gap-4">
-                <Button variant="outline" size="icon">
+                <Button variant="outline" size="icon" onClick={() => createNewFolder(node)}>
                   <FolderPlus />
                 </Button>
                 <Button variant="outline" size="icon" onClick={() => createNewSlide(node)}>
@@ -113,6 +160,9 @@ const SlidesList: React.FC<Props> = (props) => {
                 </Button>
               </div>
             )}
+            <Button variant="outline" size="icon" onClick={() => rename(node)}>
+              <Pencil />
+            </Button>
           </div>
         )}
         canDrop={(tree, { dragSource, dropTargetId, dropTarget }) => {

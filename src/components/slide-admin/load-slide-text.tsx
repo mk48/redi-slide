@@ -17,10 +17,12 @@ const LoadSlideText: React.FC<Props> = (props) => {
     let isSubscribed = true;
 
     const fetchData = async () => {
-      const { data, error } = await actions.getSlideContent({ slidePath: props.url });
+      if (props.url) {
+        const { data, error } = await actions.getSlideContent({ slidePath: props.url });
 
-      if (isSubscribed && data) {
-        setSlideContent(data);
+        if (isSubscribed && data) {
+          setSlideContent(data);
+        }
       }
     };
 

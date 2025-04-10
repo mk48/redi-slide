@@ -104,4 +104,28 @@ layout: '@/layouts/slide.astro'
       });
     },
   }),
+  createNewFolder: defineAction({
+    input: z.object({
+      baseDirectory: z.string(),
+      folderName: z.string(),
+    }),
+    handler: async (input): Promise<void> => {
+      const newFolder = path.join(srcDir(), "pages", input.baseDirectory, input.folderName);
+      fs.mkdirSync(newFolder);
+    },
+  }),
+
+  rename: defineAction({
+    input: z.object({
+      baseDirectory: z.string(),
+      currentName: z.string(),
+      newName: z.string(),
+    }),
+    handler: async (input): Promise<void> => {
+      const currentFolderPath = path.join(srcDir(), "pages", input.baseDirectory, input.currentName);
+      const newFolderPath = path.join(srcDir(), "pages", input.baseDirectory, input.newName);
+
+      fs.renameSync(currentFolderPath, newFolderPath);
+    },
+  }),
 };
