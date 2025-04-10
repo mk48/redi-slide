@@ -85,11 +85,10 @@ export const server = {
   }),
   createNewSlide: defineAction({
     input: z.object({
-      baseDirectory: z.string(),
-      slideName: z.string(),
+      fullPath: z.string(),
     }),
     handler: async (input): Promise<void> => {
-      const newFolder = path.join(srcDir(), "pages", input.baseDirectory, input.slideName);
+      const newFolder = path.join(srcDir(), "pages", input.fullPath);
       fs.mkdirSync(newFolder);
 
       const newMdxContent = `---

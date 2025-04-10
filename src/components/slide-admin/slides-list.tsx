@@ -64,14 +64,15 @@ const SlidesList: React.FC<Props> = (props) => {
   const createNewSlide = async (parentNode: NodeModel) => {
     let newSlideName = prompt("Slide name");
     if (newSlideName) {
-      const { data, error } = await actions.createNewSlide({ baseDirectory: "arrays", slideName: newSlideName });
+      const fullPath = parentNode.text + "/" + newSlideName;
+      const { data, error } = await actions.createNewSlide({ fullPath: fullPath });
       if (!error) {
         //add the new slide into tree
         const newId = getLastId(treeData) + 1;
         const newNode: NodeModel = {
           id: newId,
           parent: parentNode.id,
-          text: "/arrays/" + newSlideName,
+          text: fullPath,
           droppable: false,
         };
 

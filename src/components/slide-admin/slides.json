@@ -66,12 +66,6 @@
     "droppable": false
   },
   {
-    "id": 10507,
-    "parent": 105,
-    "text": "/arrays/new-method2",
-    "droppable": false
-  },
-  {
     "id": 10505,
     "parent": 105,
     "text": "/arrays/05-methods/05-slice",
@@ -93,6 +87,12 @@
     "id": 10509,
     "parent": 10508,
     "text": "/arrays/for-each",
+    "droppable": false
+  },
+  {
+    "id": 10510,
+    "parent": 105,
+    "text": "/arrays/05-methods/new",
     "droppable": false
   }
 ]
