@@ -66,6 +66,12 @@
     "droppable": false
   },
   {
+    "id": 10507,
+    "parent": 105,
+    "text": "/arrays/new-method",
+    "droppable": false
+  },
+  {
     "id": 10505,
     "parent": 105,
     "text": "/arrays/05-methods/05-slice",
@@ -75,12 +81,6 @@
     "id": 106,
     "parent": 1,
     "text": "/arrays/06-passing-fun",
-    "droppable": false
-  },
-  {
-    "id": 10507,
-    "parent": 105,
-    "text": "/arrays/new-method",
     "droppable": false
   }
 ]

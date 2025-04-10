@@ -3,6 +3,7 @@ import { useState } from "react";
 import { DndProvider } from "react-dnd";
 import slides from "@/components/slide-admin/slides.json";
 import React from "react";
+import { cn } from "@/lib/utils";
 
 type Props = {
   activeUrl: string;
@@ -71,7 +72,7 @@ const SlidesNav: React.FC<Props> = (props) => {
   }, []);
 
   const handleDrop = async (newTreeData: NodeModel[]) => {
-    setTreeData(newTreeData);
+    //setTreeData(newTreeData);
   };
 
   const handleSelect = async (node: NodeModel) => {
@@ -95,7 +96,14 @@ const SlidesNav: React.FC<Props> = (props) => {
           }
         }
         render={(node, { depth, isOpen, onToggle }) => (
-          <div onClick={() => handleSelect(node)} style={{ paddingLeft: depth * 24 }}>
+          <div
+            onClick={() => handleSelect(node)}
+            style={{ paddingLeft: depth * 24 }}
+            className={cn(
+              "cursor-pointer hover:bg-amber-200 h-8 flex items-center",
+              node.text === props.activeUrl && "border-2 border-solid border-amber-600"
+            )}
+          >
             {node.text.substring(node.text.lastIndexOf("/") + 1)}
           </div>
         )}

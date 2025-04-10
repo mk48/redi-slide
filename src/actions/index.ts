@@ -54,7 +54,7 @@ export const server = {
       //console.log("save into: ", slidesFilePath);
       try {
         fs.writeFileSync(slidesFilePath, JSON.stringify(input.nodes, null, 2), "utf8");
-        //console.log("Data successfully saved to disk");
+        console.log("Data successfully saved to disk");
       } catch (error) {
         console.log("An error has occurred ", error);
       }
