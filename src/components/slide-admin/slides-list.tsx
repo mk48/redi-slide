@@ -1,6 +1,6 @@
-import { getBackendOptions, MultiBackend, Tree, type NodeModel } from "@minoru/react-dnd-treeview";
+import { getBackendOptions, MultiBackend, Tree, type DropOptions, type NodeModel } from "@minoru/react-dnd-treeview";
 import { useState } from "react";
-import { DndProvider } from "react-dnd";
+import { DndProvider, type DragSourceMonitor } from "react-dnd";
 import { CustomNode } from "./custom-node";
 import { Placeholder } from "./placeholder";
 import slides from "./slides.json";
@@ -9,6 +9,7 @@ import { cn } from "@/lib/utils";
 import { FilePlus, FilePlus2, FolderPlus, Pencil } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { actions } from "astro:actions";
+import { getLastPartFromPath } from "@/lib/slid-utils";
 
 type Props = {
   onSelect: (node: NodeModel) => void;
@@ -39,7 +40,7 @@ const SlidesList: React.FC<Props> = (props) => {
     let isSubscribed = true;
 
     const fetchData = async () => {
-      const { data, error } = await actions.getDirectory({ baseDirectory: "arrays" });
+      const { data, error } = await actions.generateSlidesJsonFromDirectory({ baseDirectory: "arrays" });
 
       if (isSubscribed && data) {
         console.log(data);
@@ -54,11 +55,68 @@ const SlidesList: React.FC<Props> = (props) => {
     };
   }, []);*/
 
-  const handleDrop = async (newTreeData: NodeModel[]) => {
-    console.log(newTreeData);
-    setTreeData(newTreeData);
+  const createSlidesJsonFromDirectory = async (baseDirectory: string) => {
+    const { data, error } = await actions.generateSlidesJsonFromDirectory({ baseDirectory: baseDirectory });
+  };
 
-    const { data, error } = await actions.saveSlideOrders({ nodes: newTreeData });
+  const renameWithCorrectSrNo = async (newTreeData: NodeModel[], parentId: string | number) => {
+    const children = newTreeData.filter((t) => t.parent === parentId);
+    for (let i = 0; i < children.length; i++) {
+      const child = children[i];
+      const name = getLastPartFromPath(child.text);
+
+      //get srNo from name
+      const nameSplit = name.split("-");
+      const srNo = i + 1 < 10 ? "0" + (i + 1).toString() : (i + 1).toString();
+
+      let newName = srNo + "-" + name;
+      if (nameSplit.length >= 2 && nameSplit[0] && !Number.isNaN(Number(nameSplit[0]))) {
+        const childSrNo = Number(nameSplit[0]);
+
+        if (childSrNo === i + 1) {
+          newName = ""; //rename not needed, since the srNo is correct
+        } else {
+          //put current srNo
+          newName = srNo + "-" + name.substring(name.indexOf("-") + 1);
+        }
+      }
+
+      if (newName !== "") {
+        const newNameFullText = child.text.substring(0, child.text.lastIndexOf("/") + 1) + newName;
+        //==>const { data, error } = await actions.rename({ baseDirectory: "arrays",  currentName: child.text, newName: newNameFullText });
+        console.log("Rename ", child.text, " to ", newNameFullText);
+      }
+    }
+  };
+
+  const handleDrop = async (newTreeData: NodeModel[], options: DropOptions<unknown>) => {
+    //console.log(options);
+    setTreeData(newTreeData);
+    if (options.dragSource && options.dropTarget && options.relativeIndex !== undefined) {
+      if (options.dragSource.parent !== options.dropTarget.id) {
+        //move happened between folder
+        const name = getLastPartFromPath(options.dragSource.text);
+
+        let basePath = "/arrays";
+        if (options.dropTarget.text !== "/") {
+          basePath = options.dropTarget.text;
+        }
+        const toPath = basePath + "/" + name;
+
+        //move the folder
+        //==>const { data, error } = await actions.rename({ baseDirectory: "arrays",  currentName: options.dragSource.text, newName: toPath });
+        console.log("Rename ", options.dragSource.text, " to ", toPath);
+
+        //rearrange `from` folder children
+        await renameWithCorrectSrNo(newTreeData, options.dragSource.parent);
+      }
+
+      //rearrange `to` folder children
+      await renameWithCorrectSrNo(newTreeData, options.dropTarget.id);
+
+      //const { data, error } = await actions.saveSlideOrders({ nodes: newTreeData });
+      //==> await createSlidesJsonFromDirectory("arrays");
+    }
   };
 
   const createNewSlide = async (parentNode: NodeModel) => {

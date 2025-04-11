@@ -4,6 +4,7 @@ import { DndProvider } from "react-dnd";
 import slides from "@/components/slide-admin/slides.json";
 import React from "react";
 import { cn } from "@/lib/utils";
+import { getLastPartFromPath } from "@/lib/slid-utils";
 
 type Props = {
   activeUrl: string;
@@ -106,7 +107,7 @@ const SlidesNav: React.FC<Props> = (props) => {
               node.text === props.activeUrl && "border-2 border-solid border-amber-600"
             )}
           >
-            {node.text.substring(node.text.lastIndexOf("/") + 1)}
+            {getLastPartFromPath(node.text)}
           </div>
         )}
         canDrop={(tree, { dragSource, dropTargetId, dropTarget }) => {

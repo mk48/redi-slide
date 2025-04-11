@@ -14,15 +14,6 @@ const srcDir = () => {
 };
 
 export const server = {
-  getGreeting: defineAction({
-    input: z.object({
-      name: z.string(),
-    }),
-    handler: async (input) => {
-      console.log(input);
-      return `Hello, ${input.name}!`;
-    },
-  }),
   getDirectory: defineAction({
     input: z.object({
       baseDirectory: z.string(),
@@ -34,6 +25,25 @@ export const server = {
 
       //console.log(nodes);
       return nodes;
+    },
+  }),
+  generateSlidesJsonFromDirectory: defineAction({
+    input: z.object({
+      baseDirectory: z.string(),
+    }),
+    handler: async (input): Promise<void> => {
+      const resolvedPath = path.join(srcDir(), "pages", input.baseDirectory);
+      const nodes = CollectNodes(resolvedPath, 1, 0);
+
+      const slidesFilePath = path.join(srcDir(), "components", "slide-admin", "slides.json");
+
+      //console.log("save into: ", slidesFilePath);
+      try {
+        fs.writeFileSync(slidesFilePath, JSON.stringify(nodes, null, 2), "utf8");
+        console.log("Data successfully saved to disk");
+      } catch (error) {
+        console.log("An error has occurred ", error);
+      }
     },
   }),
   saveSlideOrders: defineAction({

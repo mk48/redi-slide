@@ -1,5 +1,11 @@
 [
   {
+    "id": 10510,
+    "parent": 10508,
+    "text": "/arrays/05-methods/new",
+    "droppable": false
+  },
+  {
     "id": 1,
     "parent": 0,
     "text": "/",
@@ -87,12 +93,6 @@
     "id": 10509,
     "parent": 10508,
     "text": "/arrays/for-each",
-    "droppable": false
-  },
-  {
-    "id": 10510,
-    "parent": 105,
-    "text": "/arrays/05-methods/new",
     "droppable": false
   }
 ]
