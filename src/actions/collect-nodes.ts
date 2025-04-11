@@ -35,12 +35,15 @@ export function CollectNodes(dirPath: string, dirIndex: number, parentIndex: num
     .filter(isDirectory);
 
   const calculatedDirIndex = dirIndex + parentIndex * 100;
+
+  //sub path
+  const subPath = dirPath.substring(dirPath.indexOf("pages") + 5).replaceAll("\\", "/");
   const nodeMdl: NodeModel[] = [
     {
       id: calculatedDirIndex,
       parent: parentIndex,
       droppable: false,
-      text: `${calculatedDirIndex} ${dirPath}`,
+      text: subPath,
     },
   ];
 

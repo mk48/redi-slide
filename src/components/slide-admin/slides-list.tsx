@@ -1,5 +1,5 @@
 import { getBackendOptions, MultiBackend, Tree, type DropOptions, type NodeModel } from "@minoru/react-dnd-treeview";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { DndProvider, type DragSourceMonitor } from "react-dnd";
 import { CustomNode } from "./custom-node";
 import { Placeholder } from "./placeholder";
@@ -34,16 +34,16 @@ const getLastId = (treeData: NodeModel[]): number => {
 };
 
 const SlidesList: React.FC<Props> = (props) => {
-  const [treeData, setTreeData] = useState<NodeModel[]>(slides);
+  const [treeData, setTreeData] = useState<NodeModel[]>([]);
 
-  /*useEffect(() => {
+  useEffect(() => {
     let isSubscribed = true;
 
     const fetchData = async () => {
-      const { data, error } = await actions.generateSlidesJsonFromDirectory({ baseDirectory: "arrays" });
+      const { data, error } = await actions.getDirectory({ baseDirectory: "arrays" });
 
       if (isSubscribed && data) {
-        console.log(data);
+        //console.log(data);
         setTreeData(data);
       }
     };
@@ -53,7 +53,7 @@ const SlidesList: React.FC<Props> = (props) => {
     return () => {
       isSubscribed = false;
     };
-  }, []);*/
+  }, []);
 
   const createSlidesJsonFromDirectory = async (baseDirectory: string) => {
     const { data, error } = await actions.generateSlidesJsonFromDirectory({ baseDirectory: baseDirectory });
@@ -124,7 +124,7 @@ const SlidesList: React.FC<Props> = (props) => {
     if (newSlideName) {
       const fullPath = parentNode.text + "/" + newSlideName;
       const { data, error } = await actions.createNewSlide({ fullPath: fullPath });
-      if (!error) {
+      /*if (!error) {
         //add the new slide into tree
         const newId = getLastId(treeData) + 1;
         const newNode: NodeModel = {
@@ -137,7 +137,7 @@ const SlidesList: React.FC<Props> = (props) => {
         const nodesWithNew = [...treeData, newNode];
         setTreeData(nodesWithNew);
         const { data, error } = await actions.saveSlideOrders({ nodes: nodesWithNew });
-      }
+      }*/
     }
   };
 
@@ -145,7 +145,7 @@ const SlidesList: React.FC<Props> = (props) => {
     let newFolderName = prompt("New folder name");
     if (newFolderName) {
       const { data, error } = await actions.createNewFolder({ baseDirectory: "arrays", folderName: newFolderName });
-      if (!error) {
+      /*if (!error) {
         //add the new folder into tree
         const newId = getLastId(treeData) + 1;
         const newNode: NodeModel = {
@@ -158,7 +158,7 @@ const SlidesList: React.FC<Props> = (props) => {
         const nodesWithNew = [...treeData, newNode];
         setTreeData(nodesWithNew);
         const { data, error } = await actions.saveSlideOrders({ nodes: nodesWithNew });
-      }
+      }*/
     }
   };
 
@@ -181,10 +181,10 @@ const SlidesList: React.FC<Props> = (props) => {
         currentName: currentName,
         newName: newName,
       });
-      if (!error) {
+      /*if (!error) {
         setTreeData(treeWithRenamedNode);
         const { data, error } = await actions.saveSlideOrders({ nodes: treeWithRenamedNode });
-      }
+      }*/
     }
   };
 
