@@ -27,7 +27,7 @@ export const server = {
       return nodes;
     },
   }),
-  generateSlidesJsonFromDirectory: defineAction({
+  /*generateSlidesJsonFromDirectory: defineAction({
     input: z.object({
       baseDirectory: z.string(),
     }),
@@ -45,7 +45,7 @@ export const server = {
         console.log("An error has occurred ", error);
       }
     },
-  }),
+  }),*/
   saveSlideOrders: defineAction({
     input: z.object({
       nodes: z.array(
@@ -126,13 +126,12 @@ layout: '@/layouts/slide.astro'
 
   rename: defineAction({
     input: z.object({
-      baseDirectory: z.string(),
       currentName: z.string(),
       newName: z.string(),
     }),
     handler: async (input): Promise<void> => {
-      const currentFolderPath = path.join(srcDir(), "pages", input.baseDirectory, input.currentName);
-      const newFolderPath = path.join(srcDir(), "pages", input.baseDirectory, input.newName);
+      const currentFolderPath = path.join(srcDir(), "pages", input.currentName);
+      const newFolderPath = path.join(srcDir(), "pages", input.newName);
 
       fs.renameSync(currentFolderPath, newFolderPath);
     },

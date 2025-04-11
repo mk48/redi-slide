@@ -55,10 +55,6 @@ const SlidesList: React.FC<Props> = (props) => {
     };
   }, []);
 
-  const createSlidesJsonFromDirectory = async (baseDirectory: string) => {
-    const { data, error } = await actions.generateSlidesJsonFromDirectory({ baseDirectory: baseDirectory });
-  };
-
   const renameWithCorrectSrNo = async (newTreeData: NodeModel[], parentId: string | number) => {
     const children = newTreeData.filter((t) => t.parent === parentId);
     for (let i = 0; i < children.length; i++) {
@@ -83,8 +79,12 @@ const SlidesList: React.FC<Props> = (props) => {
 
       if (newName !== "") {
         const newNameFullText = child.text.substring(0, child.text.lastIndexOf("/") + 1) + newName;
-        //==>const { data, error } = await actions.rename({ baseDirectory: "arrays",  currentName: child.text, newName: newNameFullText });
-        console.log("Rename ", child.text, " to ", newNameFullText);
+        const { data, error } = await actions.rename({
+          //baseDirectory: "arrays",
+          currentName: child.text,
+          newName: newNameFullText,
+        });
+        //console.log("Rename ", child.text, " to ", newNameFullText);
       }
     }
   };
@@ -104,8 +104,12 @@ const SlidesList: React.FC<Props> = (props) => {
         const toPath = basePath + "/" + name;
 
         //move the folder
-        //==>const { data, error } = await actions.rename({ baseDirectory: "arrays",  currentName: options.dragSource.text, newName: toPath });
-        console.log("Rename ", options.dragSource.text, " to ", toPath);
+        const { data, error } = await actions.rename({
+          //baseDirectory: "arrays",
+          currentName: options.dragSource.text,
+          newName: toPath,
+        });
+        //console.log("Rename ", options.dragSource.text, " to ", toPath);
 
         //rearrange `from` folder children
         await renameWithCorrectSrNo(newTreeData, options.dragSource.parent);
@@ -113,9 +117,6 @@ const SlidesList: React.FC<Props> = (props) => {
 
       //rearrange `to` folder children
       await renameWithCorrectSrNo(newTreeData, options.dropTarget.id);
-
-      //const { data, error } = await actions.saveSlideOrders({ nodes: newTreeData });
-      //==> await createSlidesJsonFromDirectory("arrays");
     }
   };
 
@@ -177,9 +178,9 @@ const SlidesList: React.FC<Props> = (props) => {
       });
 
       const { data, error } = await actions.rename({
-        baseDirectory: "arrays",
-        currentName: currentName,
-        newName: newName,
+        //baseDirectory: "arrays",
+        currentName: node.text,
+        newName: newNameFullText,
       });
       /*if (!error) {
         setTreeData(treeWithRenamedNode);
