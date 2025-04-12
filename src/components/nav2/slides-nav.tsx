@@ -6,6 +6,7 @@ import React from "react";
 import { cn } from "@/lib/utils";
 import { getLastPartFromPath } from "@/lib/slid-utils";
 import { actions } from "astro:actions";
+import { SquareMinus, SquarePlus } from "lucide-react";
 
 type Props = {
   activeUrl: string;
@@ -50,7 +51,7 @@ const prevNode = (activeUrl: string, nodes: NodeModel[]): NodeModel | null => {
 };
 
 const SlidesNav: React.FC<Props> = (props) => {
-  const [treeData, setTreeData] = useState<NodeModel[]>([]);
+  const [treeData, setTreeData] = useState<NodeModel[]>();
 
   useEffect(() => {
     let isSubscribed = true;
@@ -73,6 +74,10 @@ const SlidesNav: React.FC<Props> = (props) => {
 
   React.useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent) => {
+      if (!treeData) {
+        return;
+      }
+
       if (event.key === "ArrowRight" || event.key === " ") {
         event.preventDefault();
         const node = nextNode(props.activeUrl, treeData);
@@ -102,6 +107,10 @@ const SlidesNav: React.FC<Props> = (props) => {
     }
   };
 
+  if (!treeData) {
+    return undefined;
+  }
+
   return (
     <DndProvider backend={MultiBackend} options={getBackendOptions()}>
       <Tree
@@ -127,6 +136,9 @@ const SlidesNav: React.FC<Props> = (props) => {
               node.text === props.activeUrl && "border-2 border-solid border-amber-600"
             )}
           >
+            {node.droppable && (
+              <span onClick={onToggle}>{isOpen ? <SquareMinus size={16} /> : <SquarePlus size={16} />}</span>
+            )}
             {getLastPartFromPath(node.text)}
           </div>
         )}
