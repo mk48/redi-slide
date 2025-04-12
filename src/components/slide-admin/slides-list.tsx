@@ -3,7 +3,6 @@ import { useEffect, useState } from "react";
 import { DndProvider, type DragSourceMonitor } from "react-dnd";
 import { CustomNode } from "./custom-node";
 import { Placeholder } from "./placeholder";
-import slides from "./slides.json";
 import styles from "./style.module.css";
 import { cn } from "@/lib/utils";
 import { FilePlus, FilePlus2, FolderPlus, Pencil } from "lucide-react";
@@ -79,12 +78,12 @@ const SlidesList: React.FC<Props> = (props) => {
 
       if (newName !== "") {
         const newNameFullText = child.text.substring(0, child.text.lastIndexOf("/") + 1) + newName;
+        console.log("Rename ", child.text, " to ", newNameFullText);
         const { data, error } = await actions.rename({
           //baseDirectory: "arrays",
           currentName: child.text,
           newName: newNameFullText,
         });
-        //console.log("Rename ", child.text, " to ", newNameFullText);
       }
     }
   };
@@ -103,13 +102,13 @@ const SlidesList: React.FC<Props> = (props) => {
         }
         const toPath = basePath + "/" + name;
 
+        console.log("Rename ", options.dragSource.text, " to ", toPath);
         //move the folder
         const { data, error } = await actions.rename({
           //baseDirectory: "arrays",
           currentName: options.dragSource.text,
           newName: toPath,
         });
-        //console.log("Rename ", options.dragSource.text, " to ", toPath);
 
         //rearrange `from` folder children
         await renameWithCorrectSrNo(newTreeData, options.dragSource.parent);
@@ -177,6 +176,7 @@ const SlidesList: React.FC<Props> = (props) => {
         return t;
       });
 
+      console.log("Rename ", node.text, " to ", newNameFullText);
       const { data, error } = await actions.rename({
         //baseDirectory: "arrays",
         currentName: node.text,

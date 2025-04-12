@@ -46,7 +46,7 @@ export const server = {
       }
     },
   }),*/
-  saveSlideOrders: defineAction({
+  /*saveSlideOrders: defineAction({
     input: z.object({
       nodes: z.array(
         z.object({
@@ -69,7 +69,7 @@ export const server = {
         console.log("An error has occurred ", error);
       }
     },
-  }),
+  }),*/
   getSlideContent: defineAction({
     input: z.object({
       slidePath: z.string(),

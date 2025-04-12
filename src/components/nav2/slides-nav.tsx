@@ -1,10 +1,11 @@
 import { getBackendOptions, MultiBackend, Tree, type NodeModel } from "@minoru/react-dnd-treeview";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { DndProvider } from "react-dnd";
-import slides from "@/components/slide-admin/slides.json";
+//import slides from "@/components/slide-admin/slides.json";
 import React from "react";
 import { cn } from "@/lib/utils";
 import { getLastPartFromPath } from "@/lib/slid-utils";
+import { actions } from "astro:actions";
 
 type Props = {
   activeUrl: string;
@@ -49,7 +50,26 @@ const prevNode = (activeUrl: string, nodes: NodeModel[]): NodeModel | null => {
 };
 
 const SlidesNav: React.FC<Props> = (props) => {
-  const [treeData, setTreeData] = useState<NodeModel[]>(slides);
+  const [treeData, setTreeData] = useState<NodeModel[]>([]);
+
+  useEffect(() => {
+    let isSubscribed = true;
+
+    const fetchData = async () => {
+      const { data, error } = await actions.getDirectory({ baseDirectory: "arrays" });
+
+      if (isSubscribed && data) {
+        //console.log(data);
+        setTreeData(data);
+      }
+    };
+
+    fetchData().catch(console.error);
+
+    return () => {
+      isSubscribed = false;
+    };
+  }, []);
 
   React.useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent) => {
