@@ -14,7 +14,7 @@ type Props = {
   onSelect: (node: NodeModel) => void;
 };
 
-const getLastId = (treeData: NodeModel[]): number => {
+/*const getLastId = (treeData: NodeModel[]): number => {
   const reversedArray = [...treeData].sort((a, b) => {
     if (a.id < b.id) {
       return 1;
@@ -30,28 +30,20 @@ const getLastId = (treeData: NodeModel[]): number => {
   }
 
   return 0;
-};
+};*/
 
 const SlidesList: React.FC<Props> = (props) => {
   const [treeData, setTreeData] = useState<NodeModel[]>([]);
 
+  const refreshSlidesDirectory = async () => {
+    const { data, error } = await actions.getDirectory({ baseDirectory: "arrays" });
+    if (data) {
+      setTreeData(data);
+    }
+  };
+
   useEffect(() => {
-    let isSubscribed = true;
-
-    const fetchData = async () => {
-      const { data, error } = await actions.getDirectory({ baseDirectory: "arrays" });
-
-      if (isSubscribed && data) {
-        //console.log(data);
-        setTreeData(data);
-      }
-    };
-
-    fetchData().catch(console.error);
-
-    return () => {
-      isSubscribed = false;
-    };
+    refreshSlidesDirectory().catch(console.error);
   }, []);
 
   const renameWithCorrectSrNo = async (newTreeData: NodeModel[], parentId: string | number) => {
@@ -78,7 +70,7 @@ const SlidesList: React.FC<Props> = (props) => {
 
       if (newName !== "") {
         const newNameFullText = child.text.substring(0, child.text.lastIndexOf("/") + 1) + newName;
-        console.log("Rename ", child.text, " to ", newNameFullText);
+        //console.log("Rename ", child.text, " to ", newNameFullText);
         const { data, error } = await actions.rename({
           //baseDirectory: "arrays",
           currentName: child.text,
@@ -102,7 +94,7 @@ const SlidesList: React.FC<Props> = (props) => {
         }
         const toPath = basePath + "/" + name;
 
-        console.log("Rename ", options.dragSource.text, " to ", toPath);
+        //console.log("Rename ", options.dragSource.text, " to ", toPath);
         //move the folder
         const { data, error } = await actions.rename({
           //baseDirectory: "arrays",
@@ -116,6 +108,8 @@ const SlidesList: React.FC<Props> = (props) => {
 
       //rearrange `to` folder children
       await renameWithCorrectSrNo(newTreeData, options.dropTarget.id);
+
+      await refreshSlidesDirectory();
     }
   };
 
@@ -124,6 +118,7 @@ const SlidesList: React.FC<Props> = (props) => {
     if (newSlideName) {
       const fullPath = parentNode.text + "/" + newSlideName;
       const { data, error } = await actions.createNewSlide({ fullPath: fullPath });
+      await refreshSlidesDirectory();
       /*if (!error) {
         //add the new slide into tree
         const newId = getLastId(treeData) + 1;
@@ -145,6 +140,7 @@ const SlidesList: React.FC<Props> = (props) => {
     let newFolderName = prompt("New folder name");
     if (newFolderName) {
       const { data, error } = await actions.createNewFolder({ baseDirectory: "arrays", folderName: newFolderName });
+      await refreshSlidesDirectory();
       /*if (!error) {
         //add the new folder into tree
         const newId = getLastId(treeData) + 1;
@@ -176,12 +172,12 @@ const SlidesList: React.FC<Props> = (props) => {
         return t;
       });
 
-      console.log("Rename ", node.text, " to ", newNameFullText);
       const { data, error } = await actions.rename({
         //baseDirectory: "arrays",
         currentName: node.text,
         newName: newNameFullText,
       });
+      await refreshSlidesDirectory();
       /*if (!error) {
         setTreeData(treeWithRenamedNode);
         const { data, error } = await actions.saveSlideOrders({ nodes: treeWithRenamedNode });

@@ -130,10 +130,16 @@ layout: '@/layouts/slide.astro'
       newName: z.string(),
     }),
     handler: async (input): Promise<void> => {
+      console.log(input.currentName + " --> " + input.newName);
+
       const currentFolderPath = path.join(srcDir(), "pages", input.currentName);
       const newFolderPath = path.join(srcDir(), "pages", input.newName);
 
-      fs.renameSync(currentFolderPath, newFolderPath);
+      try {
+        fs.renameSync(currentFolderPath, newFolderPath);
+      } catch (error) {
+        console.log("An error has occurred ", error);
+      }
     },
   }),
 };
