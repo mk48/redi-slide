@@ -30,7 +30,7 @@ const NavTree2: React.FC<props> = ({ activeUrl, children }) => {
             </SidebarGroup>
           </SidebarContent>
         </Sidebar>
-        <main>
+        <main className="w-full">
           <SidebarTrigger className="text-transparent" />
           {children}
         </main>
