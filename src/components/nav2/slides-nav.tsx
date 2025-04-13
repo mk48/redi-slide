@@ -77,7 +77,6 @@ const SlidesNav: React.FC<Props> = (props) => {
       if (!treeData) {
         return;
       }
-
       if (event.key === "ArrowRight" || event.key === " ") {
         event.preventDefault();
         const node = nextNode(props.activeUrl, treeData);
@@ -95,7 +94,7 @@ const SlidesNav: React.FC<Props> = (props) => {
 
     window.addEventListener("keydown", handleKeyDown);
     return () => window.removeEventListener("keydown", handleKeyDown);
-  }, []);
+  }, [treeData]);
 
   const handleDrop = async (newTreeData: NodeModel[]) => {
     //setTreeData(newTreeData);
