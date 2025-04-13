@@ -7,13 +7,13 @@ const { pathname } = Astro.url;
 ---
 
 <BaseLayout {...props}>
-  <NavTree2 activeUrl={pathname} client:load
-    ><div class="ml-4">
+  <NavTree2 activeUrl={pathname} client:load>
+    <div class="ml-4 w-full">
       <h1 class="scroll-m-20 mb-10 text-4xl font-extrabold tracking-tight lg:text-5xl text-orange-600">
         {props.content.title}
       </h1>
 
-      <Prose>
+      <Prose client:load>
         <slot />
       </Prose>
     </div>
