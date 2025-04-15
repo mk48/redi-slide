@@ -19,7 +19,7 @@ interface props {
 const NavTree2: React.FC<props> = ({ activeUrl, children }) => {
   return (
     <div>
-      <SidebarProvider defaultOpen={true}>
+      <SidebarProvider defaultOpen={false}>
         <Sidebar>
           <SidebarContent>
             <SidebarGroup>
